@@ -70,12 +70,20 @@ async function sendMessage() {
         
         const data = await response.json();
         
+        console.log('Received data:', data);
+        console.log('Response text:', data.response);
+        
         removeTypingIndicator();
         
         if (response.ok) {
-            addMessage(data.response, false);
-            conversationHistory.push({ role: 'user', content: message });
-            conversationHistory.push({ role: 'assistant', content: data.response });
+            if (data.response) {
+                addMessage(data.response, false);
+                conversationHistory.push({ role: 'user', content: message });
+                conversationHistory.push({ role: 'assistant', content: data.response });
+            } else {
+                console.error('No response text received');
+                addMessage('Error: No response received from bot', false);
+            }
         } else {
             addMessage(`Error: ${data.error || 'Something went wrong'}`, false);
         }
