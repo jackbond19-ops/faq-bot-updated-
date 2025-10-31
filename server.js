@@ -14,7 +14,11 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Middleware
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('public', {
+  setHeaders: (res) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  }
+}));
 
 // Serve static files
 app.get('/', (req, res) => {
@@ -25,6 +29,9 @@ app.get('/', (req, res) => {
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, conversationHistory = [] } = req.body;
+    
+    console.log('Received message:', message);
+    console.log('Conversation history length:', conversationHistory.length);
 
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
@@ -50,6 +57,8 @@ app.post('/api/chat', async (req, res) => {
     });
 
     const assistantMessage = response.choices[0].message.content;
+    
+    console.log('Sending response:', assistantMessage);
 
     res.json({
       response: assistantMessage,
