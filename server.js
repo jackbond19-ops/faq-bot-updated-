@@ -46,7 +46,7 @@ app.post('/api/chat', async (req, res) => {
     const response = await openai.chat.completions.create({
       model: 'gpt-5',
       messages: messages,
-      max_completion_tokens: 500,
+      max_tokens: 500,
     });
 
     const assistantMessage = response.choices[0].message.content;
