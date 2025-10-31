@@ -38,7 +38,7 @@ app.post('/api/chat', async (req, res) => {
     }
 
     // Build messages array with conversation history
-    const messages = [
+    const input = [
       {
         role: 'system',
         content: 'You are a helpful FAQ assistant for a website. Answer user questions clearly, concisely, and professionally. If you don\'t know the answer, politely say so and offer to help with something else.'
@@ -50,15 +50,24 @@ app.post('/api/chat', async (req, res) => {
       }
     ];
 
-    const response = await openai.chat.completions.create({
+    const response = await openai.responses.create({
       model: 'gpt-5',
-      messages: messages,
-      max_completion_tokens: 500,
+      input: input,
+      reasoning: { effort: 'low' },
+      max_output_tokens: 5000,
     });
 
-    const assistantMessage = response.choices[0].message.content;
+    const assistantMessage = response.output_text || '';
     
     console.log('Sending response:', assistantMessage);
+    console.log('Full response object:', JSON.stringify(response));
+
+    if (!assistantMessage || assistantMessage.trim() === '') {
+      return res.json({
+        response: 'I apologize, but I was unable to generate a response. Please try asking your question again.',
+        timestamp: new Date().toISOString()
+      });
+    }
 
     res.json({
       response: assistantMessage,
