@@ -50,7 +50,6 @@ async function sendMessage() {
     if (!message) return;
     
     addMessage(message, true);
-    conversationHistory.push({ role: 'user', content: message });
     
     userInput.value = '';
     sendButton.disabled = true;
@@ -75,6 +74,7 @@ async function sendMessage() {
         
         if (response.ok) {
             addMessage(data.response, false);
+            conversationHistory.push({ role: 'user', content: message });
             conversationHistory.push({ role: 'assistant', content: data.response });
         } else {
             addMessage(`Error: ${data.error || 'Something went wrong'}`, false);
