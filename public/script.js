@@ -3,7 +3,7 @@
 const CLIENT_ID = 'demo-gym';
 
 // open/close widget
-const launcher = document.getElementById("chat-launcher"); 
+const launcher = document.getElementById("chat-launcher");
 const widget = document.getElementById("chat-widget");
 const closeBtn = document.getElementById("chat-close");
 
@@ -64,20 +64,27 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
-// 🟢 NEW: load greeting from backend
+// 🟢 load greeting from backend (ONLY ONE FUNCTION)
 async function loadClientGreeting() {
+  const DEFAULT_GREETING =
+    "Hello! I'm here to help answer your questions. How can I assist you today?";
+
   try {
-    const res = await fetch(`/api/client-config?clientId=${encodeURIComponent(CLIENT_ID)}`);
+    const res = await fetch(
+      `/api/client-config?clientId=${encodeURIComponent(CLIENT_ID)}`
+    );
+
+    if (!res.ok) {
+      throw new Error('Failed to load client config');
+    }
+
     const data = await res.json();
 
-    const opening =
-      data.openingMessage ||
-      "Hello! I'm here to help answer your questions. How can I assist you today?";
-
+    const opening = data.openingMessage || DEFAULT_GREETING;
     addMessage(opening, false);
   } catch (err) {
     console.error('Failed to load greeting:', err);
-    addMessage("Hello! I'm here to help answer your questions.", false);
+    addMessage(DEFAULT_GREETING, false);
   }
 }
 
