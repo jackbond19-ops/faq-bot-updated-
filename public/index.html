@@ -13,7 +13,7 @@
     💬
   </button>
 
-  <!-- chat widget (your old UI, just wrapped) -->
+  <!-- chat widget -->
   <div id="chat-widget" class="chat-widget hidden">
     <div class="chat-header">
       <h1>FAQ Assistant</h1>
@@ -21,13 +21,8 @@
       <button id="chat-close" class="chat-close">×</button>
     </div>
 
-    <div class="chat-messages" id="chatMessages">
-      <div class="message bot-message">
-        <div class="message-content">
-          <strong>Bot:</strong> Hello! I'm here to help answer your questions. How can I assist you today?
-        </div>
-      </div>
-    </div>
+    <!-- JS will insert the greeting -->
+    <div class="chat-messages" id="chatMessages"></div>
 
     <div class="chat-input-container">
       <input
