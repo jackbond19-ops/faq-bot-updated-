@@ -1,6 +1,21 @@
 // ✅ Load environment variables FIRST
 import 'dotenv/config';
 
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express from 'express';
+import OpenAI from 'openai';
+
+// ✅ paths
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ load client configs WITHOUT import assert
+const clientConfigPath = path.join(__dirname, 'client-config.json');
+const clientConfigs = JSON.parse(fs.readFileSync(clientConfigPath, 'utf-8'));
+
+// ✅ debug env
 console.log(
   '🧩 Checking .env:',
   process.env.OPENAI_API_KEY ? '✅ Found key' : '❌ Missing key'
@@ -10,15 +25,6 @@ console.log(
   process.env.OPENAI_API_KEY?.slice(0, 10) || 'undefined'
 );
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import express from 'express';
-import OpenAI from 'openai';
-import clientConfigs from './client-config.json' assert { type: 'json' };
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 console.log('👉 Running from:', __dirname);
 console.log('👉 Files in this folder:', fs.readdirSync(__dirname));
 
@@ -27,6 +33,7 @@ const port = process.env.PORT || 5000;
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// middleware
 app.use(express.json());
 app.use(
   express.static('public', {
@@ -36,16 +43,14 @@ app.use(
   })
 );
 
-// ✅ Serve frontend
+// frontend
 app.get('/', (req, res) => {
-  console.log('Looking for:', path.join(__dirname, 'public', 'index.html'));
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ✅ NEW: let frontend fetch the client's preferences
+// ✅ expose client settings
 app.get('/api/client-config', (req, res) => {
   const clientId = req.query.clientId || 'demo-hair-salon';
-
   const client =
     clientConfigs.find((c) => c.id === clientId) || clientConfigs[0];
 
@@ -65,7 +70,7 @@ app.get('/api/client-config', (req, res) => {
   });
 });
 
-// ✅ Chat endpoint
+// chat endpoint
 app.post('/api/chat', async (req, res) => {
   try {
     const {
@@ -74,18 +79,12 @@ app.post('/api/chat', async (req, res) => {
       conversationHistory = [],
     } = req.body;
 
-    console.log('💬 Received message:', message);
-    console.log('🗂️ Conversation history length:', conversationHistory.length);
-    console.log('🏢 Client ID:', clientId);
-
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
     const client =
       clientConfigs.find((c) => c.id === clientId) || clientConfigs[0];
-
-    console.log('✅ Using client config for:', client?.name || 'UNKNOWN');
 
     const systemPrompt = `
 You are the FAQ assistant for ${client.name || 'this business'}.
@@ -109,29 +108,23 @@ Keep answers clear and short.
     });
 
     const assistantMessage = response.output_text || '';
-    console.log('🤖 Sending response:', assistantMessage);
-
-    if (!assistantMessage.trim()) {
-      return res.json({
-        response:
-          'I apologize, but I was unable to generate a response. Please try asking your question again.',
-        timestamp: new Date().toISOString(),
-      });
-    }
 
     res.json({
-      response: assistantMessage,
+      response:
+        assistantMessage.trim() ||
+        "I couldn't generate a response. Please try again.",
       timestamp: new Date().toISOString(),
     });
-  } catch (error) {
-    console.error('❌ Error calling OpenAI API:', error);
+  } catch (err) {
+    console.error('❌ Error calling OpenAI API:', err);
     res.status(500).json({
       error: 'Failed to get response from AI',
-      details: error.message,
+      details: err.message,
     });
   }
 });
 
+// start 
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 FAQ Bot server running on http://localhost:${port}`);
 });
