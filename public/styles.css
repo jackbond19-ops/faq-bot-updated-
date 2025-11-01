@@ -84,7 +84,7 @@ body {
 }
 
 .user-message .message-content {
-    background: #667eea;
+    background: rgb(91, 190, 223);
     color: white;
     margin-left: auto;
     text-align: right;
@@ -158,7 +158,7 @@ body {
     display: inline-block;
     width: 8px;
     height: 8px;
-    background: #1565c0;
+    background: rgb(91, 190, 223);
     border-radius: 50%;
     margin: 0 2px;
     animation: typing 1.4s infinite;
@@ -203,7 +203,7 @@ body {
   height: 56px;
   border-radius: 999px;
   border: none;
-  background: #2563eb;
+  background: rgb(91, 190, 223);
   color: #fff;
   font-size: 24px;
   cursor: pointer;
@@ -256,7 +256,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: #2563eb;
+  background: rgb(91, 190, 223);
   color: #fff;
   padding: 10px 12px;
   position: relative;
