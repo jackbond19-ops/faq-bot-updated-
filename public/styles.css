@@ -194,3 +194,81 @@ body {
         max-width: 90%;
     }
 }
+/* floating launcher button */
+.chat-launcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+}
+
+/* widget container */
+.chat-widget {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 360px;
+  max-height: 520px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+/* hide by default */
+.hidden {
+  display: none;
+}
+
+/* adjust your existing classes to fit widget */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  background: #f7f7f7;
+}
+
+.chat-input-container {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.chat-input-container input {
+  flex: 1;
+}
+
+.chat-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #2563eb;
+  color: #fff;
+  padding: 10px 12px;
+  position: relative;
+}
+
+.chat-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}

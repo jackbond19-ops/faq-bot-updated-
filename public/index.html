@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ Bot</title>
-    <link rel="stylesheet" href="styles.css?v=2">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ Bot</title>
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
-    <div class="container">
-        <div class="chat-container">
-            <div class="chat-header">
-                <h1>FAQ Assistant</h1>
-                <p>Ask me anything!</p>
-            </div>
-            
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    <div class="message-content">
-                        <strong>Bot:</strong> Hello! I'm here to help answer your questions. How can I assist you today?
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-input-container">
-                <input 
-                    type="text" 
-                    id="userInput" 
-                    placeholder="Type your question here..." 
-                    autocomplete="off"
-                >
-                <button id="sendButton">Send</button>
-            </div>
-        </div>
+  <!-- floating button -->
+  <button id="chat-launcher" class="chat-launcher">
+    💬
+  </button>
+
+  <!-- chat widget (your old UI, just wrapped) -->
+  <div id="chat-widget" class="chat-widget hidden">
+    <div class="chat-header">
+      <h1>FAQ Assistant</h1>
+      <p>Ask me anything!</p>
+      <button id="chat-close" class="chat-close">×</button>
     </div>
 
-    <script src="script.js?v=2"></script>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot-message">
+        <div class="message-content">
+          <strong>Bot:</strong> Hello! I'm here to help answer your questions. How can I assist you today?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-container">
+      <input
+        type="text"
+        id="userInput"
+        placeholder="Type your question here..."
+        autocomplete="off"
+      />
+      <button id="sendButton">Send</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=3"></script>
 </body>
 </html>

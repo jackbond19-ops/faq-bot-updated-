@@ -1,3 +1,18 @@
+// open/close widget
+const launcher = document.getElementById("chat-launcher");
+const widget = document.getElementById("chat-widget");
+const closeBtn = document.getElementById("chat-close");
+
+launcher.addEventListener("click", () => {
+  widget.classList.remove("hidden");
+  launcher.style.display = "none"; // hide button when open
+});
+
+closeBtn.addEventListener("click", () => {
+  widget.classList.add("hidden");
+  launcher.style.display = "block";
+});
+// chat functionality
 const chatMessages = document.getElementById('chatMessages');
 const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendButton');
