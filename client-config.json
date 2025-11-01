@@ -1,0 +1,17 @@
+[
+  {
+    "id": "demo-hair-salon",
+    "name": "Glow Hair Studio",
+    "tone": "friendly",
+    "openingMessage": "Hey 👋 We can help with bookings, prices, and opening hours.",
+    "allowedTopics": ["services", "pricing", "booking", "hours"],
+    "fallbackMessage": "I'm not sure about that, but I can tell you our services and hours."
+  },
+  {
+    "id": "demo-gym",
+    "name": "PowerZone Fitness",
+    "tone": "energetic",
+    "openingMessage": "Welcome to PowerZone 💪 Ask about memberships or classes!",
+    "allowedTopics": ["membership", "classes", "location"]
+  }
+]
