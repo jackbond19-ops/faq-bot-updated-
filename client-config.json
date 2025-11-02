@@ -1,36 +1,19 @@
-[
-  {
-    "id": "demo-hair-salon",
-    "name": "Glow Hair Studio",
-    "tone": "friendly",
-    "openingMessage": "Hey 👋 We can help with bookings, prices, and opening hours.",
-    "allowedTopics": ["services", "pricing", "booking", "hours"],
-    "fallbackMessage": "I'm not sure about that, but I can tell you our services and hours."
-  },
-  {
-    "id": "demo-gym",
-    "name": "PowerZone Fitness",
-    "tone": "energetic",
-    "openingMessage": "Welcome to PowerZone 💪 Ask about memberships or classes!",
-    "allowedTopics": ["membership", "classes", "location"]
-  }
-]
 {
+  "demo-gym": {
+    "openingMessage": "Welcome to Demo Gym! 💪 How can I help?",
+    "suggestedQuestions": [
+      "What membership plans do you have?",
+      "Do you have classes?",
+      "Can I freeze my membership?"
+    ]
+  },
   "powerzone": {
-    "openingMessage": "Hi! Welcome to PowerZone ⚡ — how can I help?",
+    "openingMessage": "Welcome to PowerZone ⚡ — how can I help?",
     "suggestedQuestions": [
       "What are your opening times?",
       "Where are you located?",
       "Do you offer day passes?",
       "How much is membership?"
-    ]
-  },
-  "demo-gym": {
-    "openingMessage": "Welcome to Demo Gym!",
-    "suggestedQuestions": [
-      "What membership plans do you have?",
-      "Do you have classes?",
-      "Can I freeze my membership?"
     ]
   }
 }
