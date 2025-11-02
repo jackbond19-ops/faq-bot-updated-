@@ -1,6 +1,6 @@
 // identify which company's chatbot this is
 // (you can switch to demo-hair-salon or demo-gym)
-const CLIENT_ID = 'demo-gym';
+const CLIENT_ID = 'powerzone';
 
 // open/close widget
 const launcher = document.getElementById("chat-launcher");
