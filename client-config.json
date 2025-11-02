@@ -15,3 +15,22 @@
     "allowedTopics": ["membership", "classes", "location"]
   }
 ]
+{
+  "powerzone": {
+    "openingMessage": "Hi! Welcome to PowerZone ⚡ — how can I help?",
+    "suggestedQuestions": [
+      "What are your opening times?",
+      "Where are you located?",
+      "Do you offer day passes?",
+      "How much is membership?"
+    ]
+  },
+  "demo-gym": {
+    "openingMessage": "Welcome to Demo Gym!",
+    "suggestedQuestions": [
+      "What membership plans do you have?",
+      "Do you have classes?",
+      "Can I freeze my membership?"
+    ]
+  }
+}

@@ -272,3 +272,22 @@ v
   font-size: 20px;
   cursor: pointer;
 }
+.chat-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem 0.25rem;
+}
+
+.quick-reply {
+  background: #eef2ff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.quick-reply:hover {
+  background: #d4d9ff;
+}

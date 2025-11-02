@@ -23,10 +23,12 @@ if (launcher && widget && closeBtn) {
 const chatMessages = document.getElementById('chatMessages');
 const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendButton');
+// 👇 NEW: container for FAQ / quick-reply buttons
+const quickReplies = document.getElementById('chatQuickReplies');
 
 let conversationHistory = [];
 
-// 🟢 helper to show messages in the chat
+// helper to show messages in the chat
 function addMessage(content, isUser = false) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
@@ -38,7 +40,7 @@ function addMessage(content, isUser = false) {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 🟢 show a typing indicator while waiting for response
+// show a typing indicator while waiting for response
 function showTypingIndicator() {
   const typingDiv = document.createElement('div');
   typingDiv.className = 'message bot-message';
@@ -51,20 +53,42 @@ function showTypingIndicator() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 🟢 remove typing indicator
+// remove typing indicator
 function removeTypingIndicator() {
   const indicator = document.getElementById('typingIndicator');
   if (indicator) indicator.remove();
 }
 
-// 🟢 escape text to prevent HTML injection
+// escape text to prevent HTML injection
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
 }
 
-// 🟢 load greeting from backend (ONLY ONE FUNCTION)
+// 👇 NEW: render quick-reply buttons (FAQ buttons)
+function renderQuickReplies(questions = []) {
+  if (!quickReplies) return;
+
+  // clear anything from previous client
+  quickReplies.innerHTML = '';
+
+  if (!questions.length) return;
+
+  questions.forEach((q) => {
+    const btn = document.createElement('button');
+    btn.className = 'quick-reply';
+    btn.textContent = q;
+    btn.addEventListener('click', () => {
+      // act like the user typed it
+      userInput.value = q;
+      sendMessage();
+    });
+    quickReplies.appendChild(btn);
+  });
+}
+
+// load greeting from backend (ONLY ONE FUNCTION)
 async function loadClientGreeting() {
   const DEFAULT_GREETING =
     "Hello! I'm here to help answer your questions. How can I assist you today?";
@@ -82,13 +106,21 @@ async function loadClientGreeting() {
 
     const opening = data.openingMessage || DEFAULT_GREETING;
     addMessage(opening, false);
+
+    // 👇 NEW: show client-specific FAQ buttons
+    if (data.suggestedQuestions && Array.isArray(data.suggestedQuestions)) {
+      renderQuickReplies(data.suggestedQuestions);
+    } else {
+      renderQuickReplies([]); // no buttons for this client
+    }
   } catch (err) {
     console.error('Failed to load greeting:', err);
     addMessage(DEFAULT_GREETING, false);
+    renderQuickReplies([]); // fail gracefully
   }
 }
 
-// 🟢 send user message to backend
+// send user message to backend
 async function sendMessage() {
   const message = userInput.value.trim();
   if (!message) return;
@@ -129,7 +161,7 @@ async function sendMessage() {
   }
 }
 
-// 🟢 add event listeners
+// add event listeners
 if (sendButton) {
   sendButton.addEventListener('click', sendMessage);
 }
@@ -142,6 +174,6 @@ if (userInput) {
   });
 }
 
-// 🟢 load the opening message right after setup
+// load the opening message right after setup
 loadClientGreeting();
 userInput?.focus();

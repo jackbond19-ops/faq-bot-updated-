@@ -16,14 +16,16 @@
   <!-- chat widget -->
   <div id="chat-widget" class="chat-widget hidden">
     <div class="chat-header">
-        <h1>Chatly</h1>
-<p>Your smart virtual assistant 🤖</p>
-
+      <h1>Chatly</h1>
+      <p>Your smart virtual assistant 🤖</p>
       <button id="chat-close" class="chat-close">×</button>
     </div>
 
-    <!-- 🟢 now starts EMPTY — JS will insert the client-specific greeting -->
+    <!-- messages go here -->
     <div class="chat-messages" id="chatMessages"></div>
+
+    <!-- 👇 NEW: quick replies / FAQ buttons go here -->
+    <div class="chat-quick-replies" id="chatQuickReplies"></div>
 
     <div class="chat-input-container">
       <input
@@ -39,4 +41,3 @@
   <script src="script.js?v=3"></script>
 </body>
 </html>
-
