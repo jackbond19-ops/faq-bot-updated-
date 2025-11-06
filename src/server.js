@@ -86,6 +86,7 @@ app.get('/api/client-settings', (req, res) => {
 });
 
 // ✅ chat endpoint (FIXED)
+// ✅ chat endpoint (now uses per-client FAQ)
 app.post('/api/chat', async (req, res) => {
   try {
     const {
@@ -98,22 +99,38 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // 👇 FIX: read client by key if configs is an object
+    // 1) get client from object-style config (your current setup)
     const client = !Array.isArray(clientConfigs)
       ? clientConfigs[clientId] ||
-        clientConfigs['demo-hair-salon'] ||
+        clientConfigs['demo-gym'] || // fallback
         {}
       : clientConfigs.find((c) => c.id === clientId) ||
         clientConfigs[0] ||
         {};
 
+    // 2) try to load that client's FAQ file
+    let faqPairs = [];
+    if (client.faqFile) {
+      const faqPath = path.join(__dirname, client.faqFile);
+      if (fs.existsSync(faqPath)) {
+        const rawFaq = fs.readFileSync(faqPath, 'utf-8');
+        faqPairs = JSON.parse(rawFaq);
+      }
+    }
+
+    // 3) turn FAQ into text the model can use
+    const faqText = faqPairs
+      .map((item) => `Q: ${item.q}\nA: ${item.a}`)
+      .join('\n\n');
+
+    // 4) build a stricter system prompt so it doesn't make stuff up
     const systemPrompt = `
 You are the FAQ assistant for ${client.name || 'this business'}.
-Speak in a ${client.tone || 'friendly'} tone.
-If the user asks about something outside ${
-      client.allowedTopics?.join(', ') || 'their services'
-    }, say: "${client.fallbackMessage || "I'm not sure about that yet."}"
-Keep answers clear and short.
+Answer using ONLY the FAQ entries provided below.
+If the user asks something that is not covered, say: "${client.fallbackMessage || "I'm not sure about that yet."}"
+
+FAQ:
+${faqText || 'No FAQ data was provided.'}
     `.trim();
 
     const input = [
@@ -133,7 +150,7 @@ Keep answers clear and short.
     res.json({
       response:
         assistantMessage.trim() ||
-        'I could not generate a response. Please try again.',
+        "I couldn't find that in the FAQ. Please contact the business.",
       timestamp: new Date().toISOString(),
     });
   } catch (err) {
