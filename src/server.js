@@ -99,35 +99,50 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // 1) get client from object-style config (your current setup)
+    // get client
     const client = !Array.isArray(clientConfigs)
       ? clientConfigs[clientId] ||
-        clientConfigs['demo-gym'] || // fallback
+        clientConfigs['demo-gym'] ||
         {}
       : clientConfigs.find((c) => c.id === clientId) ||
         clientConfigs[0] ||
         {};
 
-    // 2) try to load that client's FAQ file
+    // load FAQ
     let faqPairs = [];
     if (client.faqFile) {
       const faqPath = path.join(__dirname, client.faqFile);
       if (fs.existsSync(faqPath)) {
         const rawFaq = fs.readFileSync(faqPath, 'utf-8');
         faqPairs = JSON.parse(rawFaq);
+      } else {
+        console.warn('⚠️ FAQ file not found for', clientId, 'at', faqPath);
       }
     }
 
-    // 3) turn FAQ into text the model can use
+    // ✅ exact / simple match first (no AI needed)
+    const lowerMsg = message.toLowerCase();
+    const direct = faqPairs.find(
+      (item) =>
+        item.q.toLowerCase() === lowerMsg ||
+        lowerMsg.includes(item.q.toLowerCase())
+    );
+    if (direct) {
+      return res.json({
+        response: direct.a,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    // build FAQ text for AI
     const faqText = faqPairs
       .map((item) => `Q: ${item.q}\nA: ${item.a}`)
       .join('\n\n');
 
-    // 4) build a stricter system prompt so it doesn't make stuff up
     const systemPrompt = `
 You are the FAQ assistant for ${client.name || 'this business'}.
-Answer using ONLY the FAQ entries provided below.
-If the user asks something that is not covered, say: "${client.fallbackMessage || "I'm not sure about that yet."}"
+Use ONLY the information in the FAQ below to answer.
+If the answer is not in the FAQ, say: "${client.fallbackMessage || "I'm not sure about that yet."}"
 
 FAQ:
 ${faqText || 'No FAQ data was provided.'}
@@ -161,6 +176,7 @@ ${faqText || 'No FAQ data was provided.'}
     });
   }
 });
+
 
 // start
 app.listen(port, '0.0.0.0', () => {

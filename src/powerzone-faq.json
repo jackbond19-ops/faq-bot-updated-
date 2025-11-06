@@ -1,0 +1,18 @@
+[
+  {
+    "q": "What are your opening times?",
+    "a": "We’re open Monday–Friday 6am–9pm, Saturday 8am–6pm, and Sunday 9am–4pm."
+  },
+  {
+    "q": "Where are you located?",
+    "a": "We’re at 14 Power Street, Leeds LS1."
+  },
+  {
+    "q": "Do you offer day passes?",
+    "a": "Yes, we offer day passes for £8. Just pay at reception."
+  },
+  {
+    "q": "How much is membership?",
+    "a": "Memberships start from £35/month. We also have student and annual options."
+  }
+]
