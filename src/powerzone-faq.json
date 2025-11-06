@@ -14,5 +14,69 @@
   {
     "q": "How much is membership?",
     "a": "Memberships start from £35/month. We also have student and annual options."
+  },
+  {
+    "q": "How do I join?",
+    "a": "You can join in-club at reception or online through our membership portal. Your membership is active as soon as payment is confirmed."
+  },
+  {
+    "q": "Do you offer student discounts?",
+    "a": "Yes, we offer discounted rates for students. Please bring a valid student ID when you sign up."
+  },
+  {
+    "q": "Can I freeze my membership?",
+    "a": "Yes, you can freeze your membership for short periods due to travel, injury or other reasons. Speak to reception for the current freeze policy and fees."
+  },
+  {
+    "q": "How do I cancel my membership?",
+    "a": "You can request a cancellation through reception or by contacting us via email. Please check your membership type for the notice period."
+  },
+  {
+    "q": "Do you run fitness classes?",
+    "a": "Yes, we run a range of classes including HIIT, spin, strength and mobility. Timetables are available at reception and on our website."
+  },
+  {
+    "q": "Do I need to book for classes?",
+    "a": "For popular classes we recommend booking in advance to secure your spot. You can book at reception."
+  },
+  {
+    "q": "Is parking available?",
+    "a": "Yes, we have limited on-site parking for members. If the car park is full, there are nearby paid parking options."
+  },
+  {
+    "q": "Do you have lockers and changing rooms?",
+    "a": "Yes, we have male and female changing rooms with showers, and day-use lockers. Please bring your own padlock or buy one at reception."
+  },
+  {
+    "q": "Do you have personal training?",
+    "a": "Yes, we have qualified personal trainers available. Ask at reception and we’ll match you with a trainer and current prices."
+  },
+  {
+    "q": "Do you offer a free trial?",
+    "a": "From time to time we run free or discounted trial passes. Ask reception for current offers."
+  },
+  {
+    "q": "What facilities do you have?",
+    "a": "PowerZone includes a free-weights area, cardio machines, functional training space, resistance machines, studio space, changing rooms and showers."
+  },
+  {
+    "q": "Is the gym suitable for beginners?",
+    "a": "Absolutely. Our team can show you how to use the equipment safely, and we have classes suitable for all levels."
+  },
+  {
+    "q": "Do you have age restrictions?",
+    "a": "Members must generally be 16 or over. Younger members may be allowed with parental consent — please ask reception for details."
+  },
+  {
+    "q": "What payment methods do you accept?",
+    "a": "We accept card payments and recurring monthly payments. Some memberships can also be paid annually."
+  },
+  {
+    "q": "Is the gym accessible?",
+    "a": "We have step-free access and accessible changing facilities. If you have specific requirements, let us know and we’ll do our best to help."
+  },
+  {
+    "q": "Do you have Wi-Fi?",
+    "a": "Yes, free Wi-Fi is available for members inside the gym. Ask reception for the current password."
   }
 ]
