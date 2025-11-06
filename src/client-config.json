@@ -1,9 +1,9 @@
 {
   "demo-gym": {
     "name": "Demo Gym",
-    "openingMessage": "Welcome to Demo Gym! 💪 How can I help?",
+    "openingMessage": "Welcome to Demo Gym!How can I help?",
     "faqFile": "demo-gym-faq.json",
-    "fallbackMessage": "I don’t have that info yet — please contact the gym.",
+    "fallbackMessage": "I don’t have that info yet, please contact the gym.",
     "suggestedQuestions": [
       "What membership plans do you have?",
       "Do you have classes?",
@@ -12,9 +12,9 @@
   },
   "powerzone": {
     "name": "PowerZone",
-    "openingMessage": "Welcome to PowerZone ⚡ — how can I help?",
+    "openingMessage": "Welcome to PowerZone  how can I help?",
     "faqFile": "powerzone-faq.json",
-    "fallbackMessage": "I don’t have that info yet — please contact PowerZone.",
+    "fallbackMessage": "I don’t have that info yet, please contact PowerZone.",
     "suggestedQuestions": [
       "What are your opening times?",
       "Where are you located?",
