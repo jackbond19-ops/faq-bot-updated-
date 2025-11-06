@@ -29,6 +29,8 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // middleware
 app.use(express.json());
+
+// 🆕 Serve the demo UI (public folder)
 app.use(
   express.static('public', {
     setHeaders: (res) => {
@@ -41,18 +43,14 @@ app.use(
 app.get('/api/client-config', (req, res) => {
   const clientId = req.query.clientId || 'demo-hair-salon';
 
-  // object style (your current JSON)
   if (!Array.isArray(clientConfigs)) {
     const client = clientConfigs[clientId];
-
     if (!client) {
       return res.status(404).json({ error: `Client not found: ${clientId}` });
     }
-
     return res.json(client);
   }
 
-  // fallback for array style
   const client =
     clientConfigs.find((c) => c.id === clientId) || clientConfigs[0];
 
@@ -67,7 +65,6 @@ app.get('/api/client-config', (req, res) => {
 app.get('/api/client-settings', (req, res) => {
   const clientId = req.query.clientId || 'demo-hair-salon';
 
-  // support both shapes
   const client = !Array.isArray(clientConfigs)
     ? clientConfigs[clientId] || clientConfigs['demo-hair-salon']
     : clientConfigs.find((c) => c.id === clientId) || clientConfigs[0];
@@ -85,8 +82,7 @@ app.get('/api/client-settings', (req, res) => {
   });
 });
 
-// ✅ chat endpoint (FIXED)
-// ✅ chat endpoint (now uses per-client FAQ)
+// ✅ chat endpoint (per-client FAQ)
 app.post('/api/chat', async (req, res) => {
   try {
     const {
@@ -99,7 +95,6 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // get client
     const client = !Array.isArray(clientConfigs)
       ? clientConfigs[clientId] ||
         clientConfigs['demo-gym'] ||
@@ -177,8 +172,25 @@ ${faqText || 'No FAQ data was provided.'}
   }
 });
 
+// 🆕 Simple demo chat route for your web demo
+app.post('/chat', async (req, res) => {
+  // internally call your /api/chat endpoint logic (reuse it)
+  const result = await fetch(`http://localhost:${port}/api/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: req.body.message, clientId: 'demo-gym' }),
+  });
+  const data = await result.json();
+  res.json({ answer: data.response });
+});
+
+// 🆕 Serve index.html directly for /
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // start
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 FAQ Bot server running on http://localhost:${port}`);
 });
+
